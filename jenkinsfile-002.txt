@@ -1,0 +1,53 @@
+pipeline {
+    
+    
+    agent any
+    tools {
+        maven 'm3'
+        jdk 'jdk8'
+    }
+
+
+    stages {
+        stage ('code_commit'){
+            steps{
+                git 'https://github.com/srikarkc/devopsjava.git'
+            }
+        }
+        stage ('compile'){
+            steps{
+                sh 'mvn clean'
+                sh 'mvn compile'
+            }
+        }
+        stage ('test'){
+            steps{
+                sh 'mvn clean test'
+            }
+        }
+        stage ('package'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage ('arc_art'){
+            steps{
+                archiveArtifacts 'target/*.jar'
+            }
+        }
+        stage ('complete'){
+            steps{
+                sh 'echo This build has been completed.'
+            }
+        }
+    }
+
+
+    post{
+        always{
+            sh 'echo Notified'
+        }
+    }
+
+
+}

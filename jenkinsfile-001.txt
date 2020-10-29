@@ -1,0 +1,46 @@
+pipeline{
+
+
+    agent any
+
+
+    tools {
+        maven 'm3'
+        jdk 'jdk'
+    }
+
+
+    environment {
+        TEST='HelloWorld'
+        CREDS=credentials(9919940)
+    }
+
+
+    stages {
+
+        stage('compile'){
+            steps{
+                sh 'echo This is $TEST'
+                sh 'echo my username: $CREDS_USR'
+                sh 'echo my password: $CREDS_PWD'
+            }
+        }
+        stage('build'){
+            steps{
+                sh 'echo building application'
+            }
+        }
+        stage ('test'){
+            steps{
+                sh 'echo testing application'
+            }
+        }
+    }
+
+
+    post{
+        always {sh 'echo the build is completed'}
+    } 
+
+
+}

@@ -1,0 +1,36 @@
+pipeline{
+
+
+    agent any
+
+
+    stages {
+
+        stage('Stage 1'){
+            steps{
+                sh 'echo This is stage 1'
+            }
+        }
+        stage('Stage 2'){
+            steps{
+                sh 'echo This is stage 2'
+            }
+        }
+        stage('Stage 3'){
+            steps{
+                sh 'echo This is stage 3'
+                sh 'exit 1'
+            }
+        }
+
+    }
+
+    post {
+        failure {
+            slackSend channel: 'devops_sept_2020', color: '#439FE0', message: 'Wally Works', teamDomain: 'pragraconsulting2020', tokenCredentialId: '7c77fbcd-1d78-41e6-ae54-3980ebd2b62c'
+        }
+        
+    }
+
+
+}
